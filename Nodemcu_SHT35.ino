@@ -55,11 +55,6 @@ void setup() {
   Serial.println(WiFi.macAddress());
  
   //démarrage SHT35
-  /*
-  if (! sht31.begin(0x44)) { 
-    Serial.println("Couldn't find SHT31");
-    while (1) delay(1);
-  }*/
   if(sht30.get()==0){
     double temp = sht30.cTemp;
     Serial.print("Temperature in Celsius : ");
@@ -82,7 +77,7 @@ void setup() {
     Serial.println(httpCode);   
     Serial.println(payload);  
     
-    http.end(); 
+    http.end();  
   }
   else
   {
