@@ -1,10 +1,10 @@
 /*
-  Sonde de température connectée pour piscine
+  Sonde de température haute précision pour station météo
   avec : 
      - NodeMCU
      - SHT35
 
- Cablage DS18B20 :
+ Cablage SHT35 : 
  VCC - 3V
  GND - GND 
  i2c DATA - D2
@@ -21,21 +21,15 @@
 
 #include <ESP8266WiFi.h>
 #include <ESP8266HTTPClient.h>
-
 #include <WEMOS_SHT3X.h>
 
 SHT3X sht30(0x44);
-/*
-#include <Adafruit_SHT31.h>
-
-Adafruit_SHT31 sht31 = Adafruit_SHT31(); 
-*/
 
 const char* ssid = "RIBOTRAIN";
-const char* password = "1598741230";
+const char* password = "xxxxxx";
 char server[] = "192.168.1.2";  
 WiFiClient client;
-String KEY_WS="134567654345670012";
+String KEY_WS="xxxxxxx";
 
 
 
@@ -73,31 +67,22 @@ void setup() {
     double hum = sht30.humidity;
     Serial.print("Relative Humidity : ");
     Serial.println(hum);
-    Serial.println();
-  
-  
- /*
-  double temp = sht31.readTemperature();
-  double hum = sht31.readHumidity();
-  Serial.print("Temp : ");
-  Serial.println(temp);
-  Serial.print("Hum : ");
-  Serial.println(hum);*/
+    Serial.println(); 
 
-  String url = "/stationmeteo/sht35.php?key="+KEY_WS+"&temp="+String(temp)+"&hum="+String(hum);
- 
-  HTTPClient http;  
-  String Link = "http://192.168.1.2:81"+url;
+    String url = "/stationmeteo/sht35.php?key="+KEY_WS+"&temp="+String(temp)+"&hum="+String(hum);
    
-  http.begin(Link); 
-   
-  int httpCode = http.GET();          
-  String payload = http.getString();  
-  
-  Serial.println(httpCode);   
-  Serial.println(payload);  
-  
-  http.end(); 
+    HTTPClient http;  
+    String Link = "http://192.168.1.2:81"+url;
+     
+    http.begin(Link); 
+     
+    int httpCode = http.GET();          
+    String payload = http.getString();  
+    
+    Serial.println(httpCode);   
+    Serial.println(payload);  
+    
+    http.end(); 
   }
   else
   {
